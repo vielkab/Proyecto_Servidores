@@ -10,6 +10,10 @@ public class CuentaContable
 
     public TipoCuenta Tipo { get; private set; }
 
+    private CuentaContable()
+    {
+    }
+
     private CuentaContable(string codigo, string nombre, TipoCuenta tipo)
     {
         if (!Enum.IsDefined(typeof(TipoCuenta), tipo))

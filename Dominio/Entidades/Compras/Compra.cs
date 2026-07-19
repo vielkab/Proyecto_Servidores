@@ -3,14 +3,16 @@ namespace Dominio.Entidades.Compras;
 public class Compra
 {
     public Guid Id { get; private set; }
-
     public Guid ProveedorId { get; private set; }
-
     public Guid PedidoId { get; private set; }
-
     public DateTime Fecha { get; private set; }
-
     public decimal Total { get; private set; }
+    public ICollection<DetalleCompra> Detalles { get; private set; } = new List<DetalleCompra>();
+
+    private Compra()
+    {
+    }
+
     private Compra(Guid proveedorId, Guid pedidoId, DateTime fecha, decimal total)
     {
         if (proveedorId == Guid.Empty)
@@ -33,10 +35,23 @@ public class Compra
         PedidoId = pedidoId;
         Fecha = fecha == default ? DateTime.UtcNow : fecha;
         Total = total;
+        Detalles = new List<DetalleCompra>();
     }
 
     public static Compra Crear(Guid proveedorId, Guid pedidoId, decimal total, DateTime? fecha = null)
     {
         return new Compra(proveedorId, pedidoId, fecha ?? DateTime.UtcNow, total);
+    }
+
+    public static Compra Crear(Guid proveedorId, Guid pedidoId, DateTime? fecha = null)
+    {
+        return new Compra(proveedorId, pedidoId, fecha ?? DateTime.UtcNow, 0);
+    }
+
+    public void AgregarDetalle(Guid productoId, int cantidad, decimal precioCompra)
+    {
+        var detalle = DetalleCompra.Crear(Id, productoId, cantidad, precioCompra);
+        Detalles.Add(detalle);
+        Total += detalle.Subtotal;
     }
 }

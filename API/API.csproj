@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Aplicacion\Aplicacion.csproj" />
     <ProjectReference Include="..\Infraestructura\Infraestructura.csproj" />
     <ProjectReference Include="..\backend.ServiceDefaults\backend.ServiceDefaults.csproj" />
   </ItemGroup>

@@ -10,7 +10,7 @@ public class Usuario
 
     private Usuario(string nombre, string email, string hashContrasena, RolUsuario rol)
     {
-    if (string.IsNullOrWhiteSpace(nombre))
+        if (string.IsNullOrWhiteSpace(nombre))
         {
             throw new ArgumentException("El nombre no puede estar vacio.", nameof(nombre));
         }

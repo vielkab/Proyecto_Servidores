@@ -12,6 +12,10 @@ public class DetalleAsiento
 
     public decimal Haber { get; private set; }
 
+    private DetalleAsiento()
+    {
+    }
+    
     private DetalleAsiento(Guid asientoContableId, Guid cuentaContableId, decimal debe, decimal haber)
     {
         if (asientoContableId == Guid.Empty)

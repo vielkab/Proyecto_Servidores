@@ -14,6 +14,10 @@ public class MovimientoInventario
 
     public string Observacion { get; private set; } = string.Empty;
 
+    private MovimientoInventario()
+    {
+    }
+
     private MovimientoInventario(Guid productoId, TipoMovimiento tipo, int cantidad, DateTime fecha, string? observacion)
     {
         if (productoId == Guid.Empty)

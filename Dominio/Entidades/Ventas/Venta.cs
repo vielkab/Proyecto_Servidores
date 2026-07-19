@@ -1,14 +1,17 @@
+using Dominio.Comun;
+using Dominio.Eventos;
+
 namespace Dominio.Entidades.Ventas;
 
 public class Venta
 {
+    private readonly List<IDomainEvent> eventosDominio = new();
+
     public Guid Id { get; private set; }
 
     public DateTime Fecha { get; private set; }
 
     public decimal Total { get; private set; }
-
-    public bool? EsCredito { get; private set; }
 
     public MetodoPago MetodoPago { get; private set; }
 
@@ -16,7 +19,9 @@ public class Venta
 
     public ICollection<DetalleVenta> Detalles { get; private set; } = new List<DetalleVenta>();
 
-    private Venta(Guid usuarioId, MetodoPago metodoPago, bool? esCredito, DateTime fecha)
+    public IReadOnlyCollection<IDomainEvent> EventosDominio => eventosDominio.AsReadOnly();
+
+    private Venta(Guid usuarioId, MetodoPago metodoPago, DateTime fecha)
     {
         if (usuarioId == Guid.Empty)
         {
@@ -28,23 +33,18 @@ public class Venta
             throw new ArgumentException("El metodo de pago no es valido.", nameof(metodoPago));
         }
 
-        if (metodoPago == MetodoPago.Credito && esCredito != true)
-        {
-            throw new ArgumentException("Una venta con metodo de pago credito debe marcarse como credito.", nameof(esCredito));
-        }
 
         Id = Guid.NewGuid();
         Fecha = fecha == default ? DateTime.UtcNow : fecha;
         Total = 0;
-        EsCredito = esCredito;
         MetodoPago = metodoPago;
         UsuarioId = usuarioId;
         Detalles = new List<DetalleVenta>();
     }
 
-    public static Venta Crear(Guid usuarioId, MetodoPago metodoPago, bool? esCredito = null, DateTime? fecha = null)
+    public static Venta Crear(Guid usuarioId, MetodoPago metodoPago, DateTime? fecha = null)
     {
-        return new Venta(usuarioId, metodoPago, esCredito, fecha ?? DateTime.UtcNow);
+        return new Venta(usuarioId, metodoPago, fecha ?? DateTime.UtcNow);
     }
 
     public void AgregarDetalle(Guid productoId, int cantidad, decimal precioUnitario)
@@ -52,5 +52,20 @@ public class Venta
         var detalle = DetalleVenta.Crear(Id, productoId, cantidad, precioUnitario);
         Detalles.Add(detalle);
         Total += detalle.Subtotal;
+    }
+
+    public void RegistrarEventoVentaRegistrada()
+    {
+        if (Detalles.Count == 0)
+        {
+            throw new InvalidOperationException("La venta debe tener al menos un detalle.");
+        }
+
+        eventosDominio.Add(new VentaRegistrada(Id, UsuarioId, Total));
+    }
+
+    public void LimpiarEventosDominio()
+    {
+        eventosDominio.Clear();
     }
 }

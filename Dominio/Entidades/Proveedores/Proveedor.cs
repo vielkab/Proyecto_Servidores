@@ -8,7 +8,7 @@ public class Proveedor
 
     public string Telefono { get; private set; } = string.Empty;
 
- public string Correo { get; private set; } = string.Empty;
+    public string Correo { get; private set; } = string.Empty;
 
     private Proveedor(string nombre, string? telefono, string? correo)
     {

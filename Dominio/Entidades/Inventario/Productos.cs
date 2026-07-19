@@ -15,6 +15,10 @@ public class Producto
     public Guid IdCategoria { get; private set; }
     public decimal Ganancia => PrecioVenta - PrecioCompra;
 
+    private Producto()
+    {
+    }
+
     private Producto(
         string codigoBarras,
         string nombre,

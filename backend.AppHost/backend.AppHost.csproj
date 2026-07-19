@@ -1,7 +1,7 @@
-<Project Sdk="Aspire.AppHost.Sdk/13.4.6">
+<Project Sdk="Aspire.AppHost.Sdk/13.4.5">
   <ItemGroup>
     <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="13.4.6" />
-    <ProjectReference Include="..\API\Api.csproj" />
+    <ProjectReference Include="..\API\API.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
@@ -9,7 +9,6 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <UserSecretsId>76b90b87-7311-4d6c-8102-e34ee370d2de</UserSecretsId>
+    <UserSecretsId>9113b0b6-74be-45d6-9524-aa880f59a6b0</UserSecretsId>
   </PropertyGroup>
-
 </Project>

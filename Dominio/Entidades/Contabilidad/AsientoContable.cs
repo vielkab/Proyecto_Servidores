@@ -10,6 +10,10 @@ public class AsientoContable
 
     public ICollection<DetalleAsiento> Detalles { get; private set; } = new List<DetalleAsiento>();
 
+    private AsientoContable()
+    {
+    }
+
     private AsientoContable(DateTime fecha, string descripcion)
     {
         Id = Guid.NewGuid();

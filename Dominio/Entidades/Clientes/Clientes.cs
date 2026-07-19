@@ -12,6 +12,10 @@ public class Cliente
 
     public string Correo { get; private set; } = string.Empty;
 
+    private Cliente()
+    {
+    }
+
     private Cliente(string cedula, string nombre, string? telefono, string? correo)
     {
         Id = Guid.NewGuid();
